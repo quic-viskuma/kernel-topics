@@ -13,7 +13,7 @@ jobs:
 
       - name: Create merge configuration
         run: |
-          TOPIC_BRANCH=${{ github.ref }}
+          TOPIC_BRANCH=${GITHUB_REF#refs/heads/}
           cat <<EOF > merge.conf
           baseline git@github.com:qualcomm-linux/kernel.git qcom-next
           $TOPIC_BRANCH git@github.com:qualcomm-linux/kernel-topics.git $TOPIC_BRANCH
@@ -25,8 +25,3 @@ jobs:
           cd kernel
           ../automerge/ci-merge -f ../merge.conf -t head -n
 
-      - name: Fetch the PR 
-        run: |
-          cd kernel
-          git fetch origin pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }}
-          git checkout pr-${{ github.event.pull_request.number }}
