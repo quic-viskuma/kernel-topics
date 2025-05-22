@@ -21,3 +21,9 @@ jobs:
           cd kernel
           ../automerge/ci-merge -f ../merge.conf -t head -n
 
+      - name: Fetch the PR 
+        run: |
+          cd kernel
+          git fetch ${{ github.base_ref }} pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }}
+          git checkout pr-${{ github.event.pull_request.number }}
+
