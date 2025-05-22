@@ -12,7 +12,7 @@ jobs:
           TOPIC_BRANCH=${{ github.base_ref }}
           cat <<EOF > merge.conf
           baseline git@github.com:qualcomm-linux/kernel.git qcom-next
-          $TOPIC_BRANCH git@github.com:qualcomm-linux/kernel-topics.git $TOPIC_BRANCH
+          $TOPIC_BRANCH git@github.com:quic-viskuma/kernel-topics.git $TOPIC_BRANCH
           EOF
           echo "File 'merge.conf' created successfully."
 
