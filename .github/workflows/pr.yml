@@ -7,6 +7,11 @@ jobs:
   sync:
     runs-on: self-hosted
     steps:
+      - name: Clone repositories
+        run: |
+          git clone https://github.com/qualcomm-linux/kernel.git
+          git clone https://github.com/qualcomm-linux/automerge.git
+
       - name: Create merge configuration
         run: |
           TOPIC_BRANCH=${{ github.base_ref }}
@@ -25,5 +30,6 @@ jobs:
         run: |
           cd kernel
           git fetch ${{ github.base_ref }} pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }}
-          git checkout pr-${{ github.event.pull_request.number }}
+          git merge pr-${{ github.event.pull_request.number }} --no-commit
+          git commit -m "Merge PR ${{ github.event.pull_request.number }} to integ"
 
