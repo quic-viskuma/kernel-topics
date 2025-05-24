@@ -17,7 +17,8 @@ jobs:
           TOPIC_BRANCH=${{ github.base_ref }}
           cat <<EOF > merge.conf
           baseline git@github.com:qualcomm-linux/kernel.git qcom-next
-          $TOPIC_BRANCH git@github.com:quic-viskuma/kernel-topics.git $TOPIC_BRANCH
+          topic git@github.com:quic-viskuma/kernel-topics.git $TOPIC_BRANCH
+          pr ${{ github.event.pull_request.ssh_url }} pull/${{ github.event.pull_request.number }}/head
           EOF
           echo "File 'merge.conf' created successfully."
 
@@ -25,11 +26,3 @@ jobs:
         run: |
           cd kernel
           ../automerge/ci-merge -f ../merge.conf -t head -n
-
-      - name: Fetch the PR 
-        run: |
-          cd kernel
-          git fetch ${{ github.base_ref }} pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }}
-          git merge pr-${{ github.event.pull_request.number }} --no-commit
-          git commit -m "Merge PR ${{ github.event.pull_request.number }} to integ"
-
